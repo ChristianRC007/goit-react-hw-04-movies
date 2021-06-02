@@ -7,7 +7,7 @@ import './styles/base.scss';
 
 ReactDOM.render(
   <React.StrictMode>
-    <HashRouter>
+    <HashRouter basename="/">
       <App />
     </HashRouter>
   </React.StrictMode>,
