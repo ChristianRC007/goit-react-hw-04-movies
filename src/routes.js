@@ -1,5 +1,5 @@
 const routes = {
-  home: '/goit-react-hw-04-movies',
+  home: '/',
   allMovies: '/movies',
   movieId: '/movies/:movieId',
   movieIdCast: '/movies/:movieId/cast',
