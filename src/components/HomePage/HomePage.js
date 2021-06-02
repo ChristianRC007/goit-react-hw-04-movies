@@ -1,7 +1,8 @@
 import { Component } from 'react';
-import fetchMovies from '../services/apiService';
+import { Link } from 'react-router-dom';
+import fetchMovies from '../../services/apiService';
 
-class HomeView extends Component {
+class HomePage extends Component {
   state = {
     movies: [],
   };
@@ -16,9 +17,11 @@ class HomeView extends Component {
   }
 
   fetchData(options) {
-    fetchMovies(options).then(response => {
-      this.setState({ movies: response.results });
-    });
+    fetchMovies(options)
+      .then(response => {
+        this.setState({ movies: response.results });
+      })
+      .catch(err => console.log(err));
   }
 
   render() {
@@ -27,7 +30,9 @@ class HomeView extends Component {
         <h1>Trending today</h1>
         <ul className="movies-list">
           {this.state.movies.map(el => (
-            <li key={el.id}>{el.original_title}</li>
+            <li key={el.id}>
+              <Link to={`/movies/${el.id}`}>{el.original_title}</Link>
+            </li>
           ))}
         </ul>
       </>
@@ -35,4 +40,4 @@ class HomeView extends Component {
   }
 }
 
-export default HomeView;
+export default HomePage;

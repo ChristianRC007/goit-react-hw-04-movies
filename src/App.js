@@ -1,7 +1,9 @@
 import { Route, Switch } from 'react-router-dom';
-import AppBar from './components/AppBar/AppBar';
-import HomeView from './views/HomeView';
-import MoviesView from './views/MoviesView';
+import AppBar from './components/AppBar';
+import HomePage from './components/HomePage';
+import MovieDetailsPage from './components/MovieDetailsPage';
+import MoviesPage from './components/MoviesPage';
+import NotFound from './components/NotFound';
 import routes from './routes';
 
 const App = () => {
@@ -9,8 +11,10 @@ const App = () => {
     <>
       <AppBar />
       <Switch>
-        <Route exact path={routes.home} component={HomeView} />
-        <Route path={routes.allMovies} component={MoviesView} />
+        <Route exact path={routes.home} component={HomePage} />
+        <Route exact path={routes.allMovies} component={MoviesPage} />
+        <Route path={routes.movieId} component={MovieDetailsPage} />
+        <Route component={NotFound} />
       </Switch>
     </>
   );

@@ -1,7 +1,8 @@
 import { Component } from 'react';
-import fetchMovies from '../services/apiService';
+import { Link } from 'react-router-dom';
+import fetchMovies from '../../services/apiService';
 
-class MoviesView extends Component {
+class MoviesPage extends Component {
   state = {
     query: '',
     movies: [],
@@ -20,9 +21,11 @@ class MoviesView extends Component {
       },
     };
     e.preventDefault();
-    fetchMovies(fetchOptions).then(response => {
-      this.setState({ movies: response.results });
-    });
+    fetchMovies(fetchOptions)
+      .then(response => {
+        this.setState({ movies: response.results });
+      })
+      .catch(err => console.log(err));
   };
 
   render() {
@@ -38,7 +41,11 @@ class MoviesView extends Component {
         </form>
         <ul className="movies-list">
           {this.state.movies.map(el => (
-            <li key={el.id}>{el.original_title}</li>
+            <li key={el.id}>
+              <Link to={`${this.props.match.url}/${el.id}`}>
+                {el.original_title}
+              </Link>
+            </li>
           ))}
         </ul>
       </>
@@ -46,4 +53,4 @@ class MoviesView extends Component {
   }
 }
 
-export default MoviesView;
+export default MoviesPage;
