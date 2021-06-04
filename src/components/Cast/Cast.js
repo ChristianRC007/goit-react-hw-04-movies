@@ -25,20 +25,26 @@ class Cast extends Component {
 
   render() {
     return (
-      <ul className="movie-cast-list">
-        {this.state.cast.map(
-          ({ id, profile_path, original_name, character }) => (
-            <li key={id}>
-              <img
-                src={`https://image.tmdb.org/t/p/w500${profile_path}`}
-                alt={original_name}
-              />
-              <p>{original_name}</p>
-              <p>Character: {character}</p>
-            </li>
-          ),
+      <>
+        {this.state.cast.length === 0 ? (
+          <h1>There is no information.</h1>
+        ) : (
+          <ul className="movie-cast-list">
+            {this.state.cast.map(
+              ({ id, profile_path, original_name, character }) => (
+                <li key={id}>
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500${profile_path}`}
+                    alt={original_name}
+                  />
+                  <p>{original_name}</p>
+                  <p>Character: {character}</p>
+                </li>
+              ),
+            )}
+          </ul>
         )}
-      </ul>
+      </>
     );
   }
 }
