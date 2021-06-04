@@ -38,6 +38,11 @@ class MovieDetailsPage extends Component {
       .finally(() => this.setState({ isLoading: false }));
   }
 
+  handleGoBack = () => {
+    const { location, history } = this.props;
+    history.push(location.state.from);
+  };
+
   render() {
     return (
       <>
@@ -46,6 +51,9 @@ class MovieDetailsPage extends Component {
             <h2>Loading...</h2>
           ) : (
             <>
+              <button type="button" onClick={this.handleGoBack}>
+                {'<-'} Go back
+              </button>
               <h2>
                 {this.state.title} ({this.state.release_date})
               </h2>
@@ -63,10 +71,28 @@ class MovieDetailsPage extends Component {
                 <p>Additional information</p>
                 <ul>
                   <li key="1">
-                    <Link to={`${this.props.match.url}/cast`}>Cast</Link>
+                    <Link
+                      to={{
+                        pathname: `${this.props.match.url}/cast`,
+                        state: {
+                          from: this.props.location.state.from,
+                        },
+                      }}
+                    >
+                      Cast
+                    </Link>
                   </li>
                   <li key="2">
-                    <Link to={`${this.props.match.url}/reviews`}>Reviews</Link>
+                    <Link
+                      to={{
+                        pathname: `${this.props.match.url}/reviews`,
+                        state: {
+                          from: this.props.location.state.from,
+                        },
+                      }}
+                    >
+                      Reviews
+                    </Link>
                   </li>
                 </ul>
               </div>
