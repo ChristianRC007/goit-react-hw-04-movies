@@ -29,17 +29,17 @@ class HomePage extends Component {
       <>
         <h1>Trending today</h1>
         <ul className="movies-list">
-          {this.state.movies.map(el => (
-            <li key={el.id}>
+          {this.state.movies.map(({ id, original_title }) => (
+            <li key={id} className="movies-list__item">
               <Link
                 to={{
-                  pathname: `/movies/${el.id}`,
+                  pathname: `/movies/${id}`,
                   state: {
                     from: this.props.location,
                   },
                 }}
               >
-                {el.original_title}
+                {original_title}
               </Link>
             </li>
           ))}

@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import fetchMovies from '../../services/apiService';
 import queryString from 'query-string';
 
+import './MoviesPage.scss';
+
 class MoviesPage extends Component {
   state = {
     query: '',
@@ -36,14 +38,16 @@ class MoviesPage extends Component {
   };
 
   handleSubmit = e => {
+    const { query } = this.state;
+
     const fetchOptions = {
       method: 'get',
       url: '/search/movie?',
       params: {
-        query: this.state.query,
+        query: query,
       },
     };
-    this.onQueryChange(this.state.query);
+    this.onQueryChange(query);
     e.preventDefault();
     fetchMovies(fetchOptions)
       .then(response => {
@@ -53,8 +57,10 @@ class MoviesPage extends Component {
   };
 
   onQueryChange = query => {
-    this.props.history.push({
-      pathname: this.props.location.pathname,
+    const { history, location } = this.props;
+
+    history.push({
+      pathname: location.pathname,
       search: `query=${query}`,
     });
   };
@@ -73,17 +79,17 @@ class MoviesPage extends Component {
           <button>Search</button>
         </form>
         <ul className="movies-list">
-          {this.state.movies.map(el => (
-            <li key={el.id}>
+          {this.state.movies.map(({ id, original_title }) => (
+            <li key={id} className="movies-list__item">
               <Link
                 to={{
-                  pathname: `${this.props.match.url}/${el.id}`,
+                  pathname: `${this.props.match.url}/${id}`,
                   state: {
                     from: this.props.location,
                   },
                 }}
               >
-                {el.original_title}
+                {original_title}
               </Link>
             </li>
           ))}

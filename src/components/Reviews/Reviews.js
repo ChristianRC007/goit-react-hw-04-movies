@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import fetchMovies from '../../services/apiService';
 
+import './Reviews.scss';
+
 class Reviews extends Component {
   state = { results: [] };
 
@@ -26,11 +28,11 @@ class Reviews extends Component {
         {this.state.results.length === 0 ? (
           <h1>There is no reviews.</h1>
         ) : (
-          <ul>
-            {this.state.results.map(el => (
-              <li key={el.id}>
-                <p>{el.author}</p>
-                <p>{el.content}</p>
+          <ul className="movie-reviews-list">
+            {this.state.results.map(({ id, author, content }) => (
+              <li key={id}>
+                <p className="author">Author: {author}</p>
+                <p>{content}</p>
               </li>
             ))}
           </ul>

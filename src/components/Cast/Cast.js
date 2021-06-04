@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import fetchMovies from '../../services/apiService';
 
+import './Cast.scss';
+
 class Cast extends Component {
   state = { cast: [] };
 
@@ -23,17 +25,19 @@ class Cast extends Component {
 
   render() {
     return (
-      <ul>
-        {this.state.cast.map(el => (
-          <li key={el.id}>
-            <img
-              src={`https://image.tmdb.org/t/p/w500${el.profile_path}`}
-              alt={el.original_name}
-            />
-            <p>{el.original_name}</p>
-            <p>Character: {el.character}</p>
-          </li>
-        ))}
+      <ul className="movie-cast-list">
+        {this.state.cast.map(
+          ({ id, profile_path, original_name, character }) => (
+            <li key={id}>
+              <img
+                src={`https://image.tmdb.org/t/p/w500${profile_path}`}
+                alt={original_name}
+              />
+              <p>{original_name}</p>
+              <p>Character: {character}</p>
+            </li>
+          ),
+        )}
       </ul>
     );
   }

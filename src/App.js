@@ -1,21 +1,28 @@
+import React, { Suspense, lazy } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import AppBar from './components/AppBar';
-import HomePage from './components/HomePage';
-import MovieDetailsPage from './components/MovieDetailsPage';
-import MoviesPage from './components/MoviesPage';
-import NotFound from './components/NotFound';
+
 import routes from './routes';
 
+const HomePage = lazy(() => import('./components/HomePage'));
+const MoviesPage = lazy(() => import('./components/MoviesPage'));
+const MovieDetailsPage = lazy(() => import('./components/MovieDetailsPage'));
+const NotFound = lazy(() => import('./components/NotFound'));
+
 const App = () => {
+  const { home, allMovies, movieId } = routes;
+
   return (
     <>
       <AppBar />
-      <Switch>
-        <Route exact path={routes.home} component={HomePage} />
-        <Route exact path={routes.allMovies} component={MoviesPage} />
-        <Route path={routes.movieId} component={MovieDetailsPage} />
-        <Route component={NotFound} />
-      </Switch>
+      <Suspense fallback={<h1>Loading...</h1>}>
+        <Switch>
+          <Route exact path={home} component={HomePage} />
+          <Route exact path={allMovies} component={MoviesPage} />
+          <Route path={movieId} component={MovieDetailsPage} />
+          <Route component={NotFound} />
+        </Switch>
+      </Suspense>
     </>
   );
 };
