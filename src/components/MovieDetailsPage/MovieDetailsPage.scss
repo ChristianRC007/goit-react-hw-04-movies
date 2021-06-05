@@ -62,7 +62,12 @@
 
   & li {
     margin-right: 10px;
+    padding: 3px 5px;
+
     font-size: 20px;
+
+    border-radius: 5px;
+    box-shadow: 1px 2px 3px black;
   }
 }
 
@@ -74,7 +79,7 @@
   background-color: #fff;
   border: none;
   border-radius: 5px;
-  box-shadow: 2px 3px 4px rgb(0, 0, 0);
+  box-shadow: 1px 2px 3px rgb(0, 0, 0);
 
   & > svg {
     margin-right: 5px;

@@ -4,9 +4,10 @@ import fetchMovies from '../../services/apiService';
 import './Reviews.scss';
 
 class Reviews extends Component {
-  state = { results: [] };
+  state = { results: [], isLoading: false };
 
   componentDidMount() {
+    this.setState({ isLoading: true });
     const fetchOptions = {
       method: 'get',
       url: `movie/${this.props.movieId}/reviews`,
@@ -20,12 +21,15 @@ class Reviews extends Component {
       .then(response => {
         this.setState({ results: response.results });
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log(err))
+      .finally(() => this.setState({ isLoading: false }));
   }
   render() {
     return (
       <>
-        {this.state.results.length === 0 ? (
+        {this.state.isLoading ? (
+          <h1>Loading...</h1>
+        ) : this.state.results.length === 0 ? (
           <h1>There is no reviews.</h1>
         ) : (
           <ul className="movie-reviews-list">

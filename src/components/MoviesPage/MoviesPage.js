@@ -9,6 +9,8 @@ class MoviesPage extends Component {
   state = {
     query: '',
     movies: [],
+    isLoading: false,
+    noResults: false,
   };
 
   componentDidMount() {
@@ -29,6 +31,10 @@ class MoviesPage extends Component {
     fetchMovies(fetchOptions)
       .then(response => {
         this.setState({ movies: response.results });
+
+        response.results.length > 0
+          ? this.setState({ noResults: false })
+          : this.setState({ noResults: true });
       })
       .catch(err => console.log(err));
   }
@@ -38,6 +44,7 @@ class MoviesPage extends Component {
   };
 
   handleSubmit = e => {
+    this.setState({ isLoading: true });
     const { query } = this.state;
 
     const fetchOptions = {
@@ -52,8 +59,13 @@ class MoviesPage extends Component {
     fetchMovies(fetchOptions)
       .then(response => {
         this.setState({ movies: response.results });
+
+        response.results.length > 0
+          ? this.setState({ noResults: false })
+          : this.setState({ noResults: true });
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log(err))
+      .finally(() => this.setState({ isLoading: false }));
   };
 
   onQueryChange = query => {
@@ -78,22 +90,28 @@ class MoviesPage extends Component {
           />
           <button>Search</button>
         </form>
-        <ul className="movies-list">
-          {this.state.movies.map(({ id, original_title }) => (
-            <li key={id} className="movies-list__item">
-              <Link
-                to={{
-                  pathname: `${this.props.match.url}/${id}`,
-                  state: {
-                    from: this.props.location,
-                  },
-                }}
-              >
-                {original_title}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {this.state.isLoading ? (
+          <h1>Loading...</h1>
+        ) : this.state.noResults ? (
+          <h1>There is no results on this query.</h1>
+        ) : (
+          <ul className="movies-list">
+            {this.state.movies.map(({ id, original_title }) => (
+              <li key={id} className="movies-list__item">
+                <Link
+                  to={{
+                    pathname: `${this.props.match.url}/${id}`,
+                    state: {
+                      from: this.props.location,
+                    },
+                  }}
+                >
+                  {original_title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </>
     );
   }
