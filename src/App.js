@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import AppBar from './components/AppBar';
+import Loader from 'react-loader-spinner';
 
 import routes from './routes';
 
@@ -15,7 +16,17 @@ const App = () => {
   return (
     <>
       <AppBar />
-      <Suspense fallback={<h1>Loading...</h1>}>
+      <Suspense
+        fallback={
+          <Loader
+            type="ThreeDots"
+            color="#000000"
+            height={100}
+            width={100}
+            timeout={3000}
+          />
+        }
+      >
         <Switch>
           <Route exact path={home} component={HomePage} />
           <Route exact path={allMovies} component={MoviesPage} />
